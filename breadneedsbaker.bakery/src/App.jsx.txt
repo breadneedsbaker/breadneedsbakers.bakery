@@ -1,0 +1,66 @@
+import React, { useState } from "react";
+
+function App() {
+  const [posts, setPosts] = useState([]);
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [visibility, setVisibility] = useState("everyone"); // "everyone" or "onlyMe"
+
+  const handlePost = () => {
+    if (!name || !message) return;
+    setPosts([...posts, { name, message, visibility }]);
+    setMessage("");
+  };
+
+  return (
+    <div style={{ fontFamily: "sans-serif", padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <h1>BreadNeedsBakers Bakery</h1>
+      <h2>Leave a post:</h2>
+      <input
+        placeholder="Your name (optional)"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        style={{ width: "100%", padding: "8px", marginBottom: "8px" }}
+      />
+      <textarea
+        placeholder="Your message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        style={{ width: "100%", padding: "8px", marginBottom: "8px" }}
+      />
+      <div style={{ marginBottom: "8px" }}>
+        <label>
+          <input
+            type="radio"
+            checked={visibility === "everyone"}
+            onChange={() => setVisibility("everyone")}
+          />
+          Show to everyone
+        </label>
+        <br />
+        <label>
+          <input
+            type="radio"
+            checked={visibility === "onlyMe"}
+            onChange={() => setVisibility("onlyMe")}
+          />
+          Only me
+        </label>
+      </div>
+      <button onClick={handlePost} style={{ padding: "8px 16px" }}>Post</button>
+
+      <h2>Posts:</h2>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {posts.map((p, index) => (
+          <li key={index} style={{ marginBottom: "12px", borderBottom: "1px solid #ccc", paddingBottom: "8px" }}>
+            <strong>{p.name || "Anonymous"}:</strong> {p.message}
+            <br />
+            <em>{p.visibility === "onlyMe" ? "Only you can see this" : "Everyone can see this"}</em>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
